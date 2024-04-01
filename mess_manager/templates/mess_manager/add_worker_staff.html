@@ -1,0 +1,12 @@
+<!-- mess_manager/templates/mess_manager/add_worker_staff.html -->
+
+{% extends 'base_generic_manager.html' %}
+
+{% block content %}
+  <h2>Add Worker Staff</h2>
+  <form method="post" action="{% url 'add_worker_staff' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Submit</button>
+  </form>
+{% endblock %}

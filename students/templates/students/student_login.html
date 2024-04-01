@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MULI Login Page</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="top-bar">
+            <span class="brand">MULI</span>
+            <span class="profile-icon">&#128100;</span>
+        </div>
+    </header>
+
+    <main>
+        <div class="login-container">
+            <h1>Login</h1>
+            <p class="subtitle">Already Registered? Login</p>
+            <form method="post">
+                {% csrf_token %}
+
+                <label for="rollNo">ROLL NO.</label>
+                {{ form.roll_no }}
+                
+
+                <label for="password">PASSWORD</label>
+                {{ form.password }}
+                
+                <button type="submit">LOGIN</button>
+            </form>
+
+            {% if messages %}
+                {% for message in messages %}
+                    <p class="error">{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+<style>
+
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #13072E; /* Darker blue background */
+}
+
+.top-bar {
+    background-color: #808080; /* Grey background */
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.brand {
+    font-weight: bold;
+    font-size: 24px;
+    text-align: left;
+}
+
+.profile-icon {
+    display: inline-block;
+    color: white;
+    border-radius: 50%; /* Make it round */
+    font-size: 24px; /* Slightly smaller than container to fit nicely */
+    text-align: center;
+}
+
+.login-container {
+    width: 300px;
+    margin: 50px auto; /* More space from the top */
+    padding: 20px;
+    text-align: center; /* Align text to the center */
+    color: #808080; /* Grey text color for consistency with the button */
+}
+
+h1 {
+    color: #808080; /* Grey color */
+    margin-bottom: 5px;
+}
+
+.subtitle {
+    font-size: 14px;
+    color: #c0c0c0; /* Light grey color */
+    margin-bottom: 30px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    color: #808080; /* Grey color */
+    margin-bottom: 5px;
+    text-align: left; /* Align text to the left */
+    display: block;
+}
+
+input {
+    margin-bottom: 20px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background: #ffffff; /* White background for input */
+}
+
+button {
+    padding: 10px;
+    background-color: #808080; /* Grey background */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    margin-top: 10px; /* Add space above the button */
+}
+
+button:hover {
+    background-color: #a9a9a9;
+}
+
+/* Responsive adjustments */
+@media (max-width: 400px) {
+    .login-container {
+        width: 90%;
+    }
+}
+
+</style>
+<script>
+
+
+document.getElementById('loginForm').addEventListener('submit', function(event){
+    event.preventDefault();
+    var rollNo = document.getElementById('rollNo').value;
+    var password = document.getElementById('password').value;
+    
+    // TODO: Implement actual login logic here
+
+    console.log('Login attempt with Roll No:', rollNo);
+    alert('Login successful for Roll No: ' + rollNo);
+});
+</script>

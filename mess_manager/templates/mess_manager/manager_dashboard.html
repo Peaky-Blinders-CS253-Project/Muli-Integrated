@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manager Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/manager_dashboard.css' %}"> <!-- Include the CSS file -->
+</head>
+<body>
+
+<div class="header">
+    <div>MULI</div>
+    <a href="{% url 'logout' %}" class="button" method="POST">⚙️</a>
+</div>
+<div class="container">
+    <a href="{% url 'student_list' %}" class="button"><span class="symbol">👥</span><br>Student Info</a>
+    <a href="{% url 'set_base_meal_charge' %}" class="button"><span class="symbol">📚</span><br>Manage BDMR</a>
+    <a href="{% url 'AddStudentView' %}" class="button"><span class="symbol">➕</span><br>Add Students</a>
+    <a href="{% url 'mess_menu' %}" class="button"><span class="symbol">🍽️</span><br>Mess menu update/Set mess time</a>
+    <a href="{% url 'extraitemcreate' %}" class="button"><span class="symbol">🥤</span><br>Manage Extras/Juice</a>
+    <a href="{% url 'view_bookings' %}" class="button"><span class="symbol">👀</span><br>View Bookings</a>
+</div>
+
+</body>
+</html>

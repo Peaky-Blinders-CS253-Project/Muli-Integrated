@@ -1,0 +1,71 @@
+body {
+    background-color: #13072E; /* Dark background */
+    color: white;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 1000px;
+    margin: auto;
+    padding: 20px;
+    text-align: center;
+}
+
+h1, h2, label, button {
+    text-transform: uppercase; /* Capitalizes text */
+}
+
+.booking-sections {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap; /* Allows items to wrap if not enough space */
+}
+
+.section {
+    background-color: #3C3F58; /* Section background */
+    border-radius: 10px;
+    padding: 20px;
+    flex-basis: calc(50% - 10px); /* Occupies half the space minus margin */
+    margin: 5px;
+    box-sizing: border-box;
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+input[type="date"],
+select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #555;
+    background-color: #555;
+    color: white;
+}
+
+button {
+    padding: 10px 20px;
+    background-color: #555;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #6C6F88;
+}
+
+@media (max-width: 800px) {
+    .booking-sections {
+        flex-direction: column;
+    }
+
+    .section {
+        flex-basis: 100%;
+    }
+}

@@ -1,0 +1,23 @@
+<!-- students/student_card.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Card</title>
+</head>
+<body>
+    <h1>Student Card for {{ student.name }}</h1>
+
+    <p>Roll Number: {{ student.roll_number }}</p>
+    <p>Paid Fees: ${{ student.paid_fees }}</p>
+    <p>Remaining Fees: ${{ student.remaining_fees }}</p>
+
+    <form method="post" action="{% url 'student_card' student.roll_number %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>

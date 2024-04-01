@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MULI Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1 class="title">MULI</h1>
+            <div id="settings-icon" class="settings-icon">&#9881;</div>
+        </div>
+    </header>
+
+    <main>
+        <div class="card-container">
+            <a href="{% url 'meal_cancel' rollno=rollno %}" class="card">
+                <span class="icon">&#128197;</span>
+                <h2>Manage Bookings</h2>
+            </a>
+            <a href="other-details.html" class="card">
+                <span class="icon">&#128100;</span>
+                <h2>Other Details</h2>
+            </a>
+            <a href="my-details.html" class="card">
+                <span class="icon">&#128181;</span>
+                <h2>My Details</h2>
+            </a>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+<style>
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #13072E; /* Dark blue-black background */
+    color: white;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    position: relative; /* Ensures that the settings icon is positioned in relation to the header */
+}
+
+.header-content .title {
+    margin-left: 10px;
+}
+
+#settings-icon {
+    font-size: 24px;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+}
+
+main {
+    padding: 20px;
+}
+
+.card-container {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: flex-start;
+    text-align: center;
+}
+
+.card {
+    width: 180px; /* Adjust width as needed */
+    height: 180px; /* Adjust height as needed */
+    background-color: #3136dd; /* Adjust card background color */
+    border-radius: 10px;
+    margin: 10px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+    text-decoration: none; /* Removes underline from links */
+}
+
+.card:hover {
+    background-color: #575dd6; /* Adjust hover state color */
+}
+
+.card .icon {
+    font-size: 40px;
+    margin-bottom: 10px;
+}
+
+.card h2 {
+    color: white; /* Ensures text in cards is white */
+}
+
+@media (max-width: 768px) {
+    .card-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .card {
+        width: 80%;
+        height: auto;
+        margin-bottom: 20px;
+    }
+}
+</style>
+
+
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const settingsIcon = document.getElementById('settings-icon');
+    settingsIcon.addEventListener('click', () => {
+        // Redirect to settings page when the settings icon is clicked
+        window.location.href = 'settings.html';
+    });
+});
+</script>

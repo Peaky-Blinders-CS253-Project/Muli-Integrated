@@ -1,0 +1,46 @@
+<!-- mess_menu.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mess Menu</title>
+</head>
+<body>
+    <h1>Mess Menu</h1>
+
+    <!-- Display the form for adding new menu items -->
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Add Menu Item</button>
+    </form>
+
+    <!-- Display the existing menu items -->
+    <table>
+        <thead>
+            <tr>
+                <th>Day</th>
+                <th>Breakfast</th>
+                <th>Lunch</th>
+                <th>Dinner</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in menu_items %}
+            <tr>
+                <td>{{ item.day }}</td>
+                <td>{{ item.breakfast }}</td>
+                <td>{{ item.lunch }}</td>
+                <td>{{ item.dinner }}</td>
+                <td>{{ item.price }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
+
+

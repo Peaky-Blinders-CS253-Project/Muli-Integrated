@@ -1,0 +1,23 @@
+<!-- students/booking_extra_items.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Extra Items</title>
+</head>
+<body>
+    <h1>Booking Extra Items for {{ student.name }}</h1>
+    
+    {% if extra_items_bookings %}
+        <ul>
+            {% for booking in extra_items_bookings %}
+                <li>{{ booking.date }} - {% comment %} Add other fields for extra items {% endcomment %}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No extra item bookings found for this student.</p>
+    {% endif %}
+</body>
+</html>

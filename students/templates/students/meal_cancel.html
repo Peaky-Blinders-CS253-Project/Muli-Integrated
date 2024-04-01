@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Manage Bookings</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>MANAGE BOOKINGS</h1>
+        <div class="booking-sections">
+            <div class="section">
+                <h2>CANCELLATION</h2>
+                <form method="post" action="{% url 'meal_cancel' rollno=rollno %}">
+                    {% csrf_token %}
+                    <label for="canceldate">DATE</label>
+                    <input type="date" id="canceldate" name="canceldate">
+                    <label for="canceltime">TIME</label>
+                    <select id="canceltime" name="canceltime">
+                        <option value="breakfast">breakfast</option>
+                        <option value="lunch">lunch</option>
+                        <option value="dinner">dinner</option>
+                    </select>
+                    <button type="submit" id="cancel">CANCEL</button>
+                </form>
+            
+                {{ message }}
+                <div class="section">
+                    <h2>EXTRA BOOKINGS</h2>
+                    <form method="post" action="{% url 'show_extra' rollno=rollno %}">
+                        {% csrf_token %}
+                        <label for="extraDate">DATE</label>
+                        <input type="date" id="extraDate" name="extraDate">
+                        <label for="extraTime">TIME</label>
+                        <select id="extraTime" name="extraTime">
+                            <option value="breakfast">Breakfast</option>
+                            <option value="lunch">Lunch</option>
+                            <option value="dinner">Dinner</option>
+                        </select>
+                        <label for="extra">EXTRA</label>
+                        <button type="submit" id="bookButton">SHOW EXTRA</button>
+                    </form>
+                </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
+
+
+
+
+<style>
+    body {
+        background-color: #13072E; /* Dark background */
+        color: white;
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+    
+    .container {
+        max-width: 1000px;
+        margin: auto;
+        padding: 20px;
+        text-align: center;
+    }
+    
+    h1, h2, label, button {
+        text-transform: uppercase; /* Capitalizes text */
+    }
+    
+    .booking-sections {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap; /* Allows items to wrap if not enough space */
+    }
+    
+    .section {
+        background-color: #3C3F58; /* Section background */
+        border-radius: 10px;
+        padding: 20px;
+        flex-basis: calc(50% - 10px); /* Occupies half the space minus margin */
+        margin: 5px;
+        box-sizing: border-box;
+    }
+    
+    label {
+        display: block;
+        margin-bottom: 10px;
+    }
+    
+    input[type="date"],
+    select {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 20px;
+        border: 1px solid #555;
+        background-color: #555;
+        color: white;
+    }
+    
+    button {
+        padding: 10px 20px;
+        background-color: #555;
+        color: white;
+        border: none;
+        border-radius: 20px;
+        cursor: pointer;
+    }
+    
+    button:hover {
+        background-color: #6C6F88;
+    }
+    
+    @media (max-width: 800px) {
+        .booking-sections {
+            flex-direction: column;
+        }
+    
+        .section {
+            flex-basis: 100%;
+        }
+    }
+</style>
+

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Extras Giving Status</title>
+</head>
+<body>
+    <h1>Extras Giving Status for {{ student.name }}</h1>
+    <ul>
+        {% for giving in extras_givings %}
+            <li>{{ giving.date }} - {{ giving.hash_number }}</li>
+            <!-- Add other fields as needed -->
+        {% endfor %}
+    </ul>
+</body>
+</html>

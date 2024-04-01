@@ -1,0 +1,27 @@
+<!-- mess_manager/templates/mess_manager/update_mess_menu.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Mess Menu Item</title>
+    <!-- Add your specific styles or scripts here -->
+</head>
+
+<body>
+    <h2>Update Mess Menu Item</h2>
+
+    <form method="post" action="{% url 'update_mess_menu' item_id %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Update">
+    </form>
+
+    <!-- Add other content as needed -->
+
+</body>
+
+</html>

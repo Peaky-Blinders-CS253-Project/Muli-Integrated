@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Show Extra Items</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Extra Bookings</h1>
+        <form method="post" action= "{% url 'book_extra_item' rollno=rollno %}">
+            {% csrf_token %}
+            <div class="booking-sections">
+                <div class="section">
+                    <h2>Select Extra Item</h2>
+                    <select name="extra_item">
+                        <optgroup label="Weekly Items">
+                            {% for item in weekly_items %}
+                                <option value="{{ item.name }}">{{ item.name }} - Price: {{ item.price }}</option>
+                            {% endfor %}
+                        </optgroup>
+                        <optgroup label="Special Items">
+                            {% for item in special_items %}
+                                <option value="{{ item.name }}">{{ item.name }} - Price: {{ item.price }}</option>
+                            {% endfor %}
+                        </optgroup>
+                        <optgroup label="Regular Items">
+                            {% for item in regular_items %}
+                                <option value="{{ item.name }}">{{ item.name }} - Price: {{ item.price }}</option>
+                            {% endfor %}
+                        </optgroup>
+                    </select>
+                </div>
+            </div>
+            <button type="submit">Book</button>
+        </form>
+    </div>
+</body>
+</html>

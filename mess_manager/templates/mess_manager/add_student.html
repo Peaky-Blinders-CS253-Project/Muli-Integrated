@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Student</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    {{n}}
+    <h2>ADD STUDENT</h2>
+    <form  method="POST" action="{% url 'AddStudentView' %}">
+      {% csrf_token %}
+      <div class="form-group">
+        <input type="text" placeholder="Name" class="input-field" name="name">
+      </div>
+      <div class="form-group">
+        <input type="number" placeholder="Roll No" class="input-field" name="rollno">
+      </div>
+      <div class="form-group">
+        <input type="email" placeholder="Email ID" class="input-field" name="email">
+      </div>
+      <div class="form-group">
+        <input type="text" placeholder="Password" class="input-field" name="password">
+      </div>
+      <div class="button-group">
+        <button type="submit" class="button">DONE</button>
+      </div>
+    </form>
+  </div>
+</body>
+</html>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #4b5563;
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+}
+
+.container {
+  background-color: #1e293b;
+  padding: 2rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  max-width: 400px;
+  width: 100%;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.input-field {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  border: none;
+  background-color: #334155;
+  color: #fff;
+  font-size: 1rem;
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-between;
+}
+
+.button {
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  border: none;
+  background-color: #3b82f6;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: #2563eb;
+}
+</style>
+

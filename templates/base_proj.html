@@ -1,0 +1,25 @@
+<!-- templates/base.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Mess Automation</title>
+</head>
+<body>
+
+<h1>Welcome to Mess Automation</h1>
+
+<p>Please select your role:</p>
+
+<ul>
+    
+    <li><a href="{% url 'manager_login' %}">Manager</a></li>
+
+</ul>
+
+{% block content %}{% endblock %}
+
+</body>
+</html>

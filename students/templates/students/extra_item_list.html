@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Extra Items List</title>
+</head>
+<body>
+    <h1>Extra Items</h1>
+    <ul>
+        {% for extra_item in extra_items %}
+            <li>{{ extra_item.name }} - ${{ extra_item.price }}</li>
+            <form method="post" action="{% url 'book_extra_item' extra_item.pk %}">
+                {% csrf_token %}
+                <input type="hidden" name="quantity" value="1"> <!-- Default quantity -->
+                <button type="submit">Book</button>
+            </form>
+            <br>
+        {% endfor %}
+    </ul>
+</body>
+</html>
+
+

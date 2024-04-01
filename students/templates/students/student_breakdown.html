@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Breakdown</title>
+</head>
+<body>
+    <h1>Breakdowns</h1>
+
+    <h2>Breakdown Chart</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Base Meal Price</th>
+                <th>Total Extras Price</th>
+                <th>Total Cost</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for breakdown in breakdowns %}
+            <tr>
+                <td>{{ breakdown.date }}</td>
+                <td>{{ breakdown.base_meal_price }}</td>
+                <td>{{ breakdown.total_extras_price }}</td>
+                <td>{{ breakdown.total_cost }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>Breakdown Chart Extras</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Breakdown Chart ID</th>
+                <th>Extra Item</th>
+                <th>Quantity</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for extra in breakdown_extras %}
+            <tr>
+                <td>{{ extra.breakdown_chart.id }}</td>
+                <td>{{ extra.extra_item }}</td>
+                <td>{{ extra.quantity }}</td>
+                <td>{{ extra.price }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+</html>

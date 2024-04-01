@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Show Bookings</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Show Bookings</h1>
+        <form method="post" action="{% url 'view_bookings' %}">
+            {% csrf_token %}
+            <div>
+                <label for="date">Select Date:</label>
+                <input type="date" id="date" name="date">
+            </div>
+            <div>
+                <label for="time">Select Time:</label>
+                <select id="time" name="time">
+                    <option value="breakfast">Breakfast</option>
+                    <option value="lunch">Lunch</option>
+                    <option value="dinner">Dinner</option>
+                </select>
+            </div>
+            <button type="submit">Show Bookings</button>
+        </form>
+
+        <h2>Total Students: {{ total_students }}</h2>
+        <h2>Total Cancellations: {{ total_cancellations }}</h2>
+        <h2>Remaining Students: {{ remaining_students }}</h2>
+
+        <h2>Extra Items Counts:</h2>
+        <ul>
+            {% for item in extra_items_counts %}
+                <li>{{ item.extra_item }}: {{ item.count }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>

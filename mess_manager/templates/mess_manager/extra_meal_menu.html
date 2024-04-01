@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Extras/Juice</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="header">
+        <h1>Manage Extras/Juice</h1>
+    </div>
+    <div class="manage-container">
+        <div class="extras">
+            <h2>EXTRAS/JUICES</h2>
+            <form method="post" action="{% url 'extraitemcreate' %}">
+                {% csrf_token %}
+                <label for="type">TYPE</label>
+                <select id="type" name="Type">
+                    <option value="regular">Regular</option>
+                    <option value="special">Special</option>
+                    <option value="weekly">Weekly</option>
+                </select>
+                <label for="name">NAME</label>
+                <input type="text" id="name" name="name">
+                <label for="price">PRICE</label>
+                <input type="text" id="price" name="price">
+                <label for="date">DATE</label>
+                <input type="date" id="date" name="Date">
+                <label for="time">TIME</label>
+                <select id="time" name="Time">
+                    <option value="breakfast">Breakfast</option>
+                    <option value="lunch">Lunch</option>
+                    <option value="dinner">Dinner</option>
+                </select>
+                <label for="day">DAY</label>
+                <select id="day" name="Day">
+                    <option value="monday">Monday</option>
+                    <option value="tuesday">Tuesday</option>
+                    <option value="wednesday">Wednesday</option>
+                    <option value="thursday">Thursday</option>
+                    <option value="friday">Friday</option>
+                    <option value="saturday">Saturday</option>
+                    <option value="sunday">Sunday</option>
+                </select>
+                <button class="save" type="submit">Save</button>
+                
+            </form>
+            <div class="extras-list">
+                {% for extra in extras %}
+                <div class="item">
+                    <span class="editable-name">{{ extra.name }}</span>
+                    <span>{{ extra.Type }}</span>
+                    <span class="update_price">
+                    <form method="post" action="{% url 'update_price' extra.id %}">
+                        {% csrf_token %}
+                        <input type="text" name="price" value="{{ extra.price }}">
+                        <button type="submit">Update Price</button>
+                    </form>
+                    </span>
+                    <span class="delete">
+                        <form action="{% url 'delete_extra_item' extra.id %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit">Delete</button>
+                        </form>
+                    </span>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {{message}}
+    <script src="scripts.js"></script>
+</body>
+</html>
+
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+    
+
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #13072E;
+    color: white;
+}
+
+.header h1 {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.manage-container {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+}
+
+h2 {
+    margin: 0 0 10px 0;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type="text"], input[type="date"], select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #333;
+    background-color: white; /* Changed from #333 to white */
+    color: #13072E; /* Text color changed to dark blue-black */
+}
+
+.item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.editable-price, .editable-name {
+    background-color: white; /* White background for the price/name */
+    padding: 5px;
+    border-radius: 5px;
+    color: #13072E; /* Blue font color */
+}
+
+.edit, .delete {
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.edit {
+    color: blue; /* Edit icon color changed to blue */
+}
+
+.delete {
+    color: red; /* Delete icon color changed to red */
+}
+
+.edit:hover, .delete:hover {
+    color: #ddd;
+}
+
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const typeSelect = document.getElementById('type');
+        const dateLabel = document.querySelector('label[for="date"]');
+        const dateInput = document.getElementById('date');
+        const timeLabel = document.querySelector('label[for="time"]');
+        const timeSelect = document.getElementById('time');
+        const dayLabel = document.querySelector('label[for="day"]');
+        const daySelect = document.getElementById('day');
+    
+        // Function to handle visibility of date, time, and day inputs based on the selected type
+        function handleTypeChange() {
+            const selectedType = typeSelect.value;
+            if (selectedType === 'regular') {
+                dateLabel.style.display = 'none';
+                dateInput.style.display = 'none';
+                timeLabel.style.display = 'none';
+                timeSelect.style.display = 'none';
+                dayLabel.style.display = 'none';
+                daySelect.style.display = 'none';
+            } else if (selectedType === 'special') {
+                dateLabel.style.display = 'block';
+                dateInput.style.display = 'block';
+                timeLabel.style.display = 'block';
+                timeSelect.style.display = 'block';
+                dayLabel.style.display = 'none';
+                daySelect.style.display = 'none';
+            } else if (selectedType === 'weekly') {
+                dateLabel.style.display = 'none';
+                dateInput.style.display = 'none';
+                timeLabel.style.display = 'block';
+                timeSelect.style.display = 'block';
+                dayLabel.style.display = 'block';
+                daySelect.style.display = 'block';
+            }
+        }
+    
+        // Initial call to handle type change on page load
+        handleTypeChange();
+    
+        // Event listener for type selection change
+        typeSelect.addEventListener('change', handleTypeChange);
+    });
+    
+</script>

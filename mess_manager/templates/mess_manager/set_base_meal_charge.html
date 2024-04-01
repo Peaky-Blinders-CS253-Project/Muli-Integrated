@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Set Base Meal Charge</title>
+</head>
+<body>
+    <h2>Set Base Meal Charge</h2>
+    <form method="post">
+        {% csrf_token %}
+        <label for="id_date">Date:</label>
+        <input type="text" id="id_date" name="date" placeholder="YYYY-MM-DD" required>
+        <br>
+        <label for="id_base_meal_charge">Base Meal Charge:</label>
+        <input type="number" id="id_base_meal_charge" name="base_meal_charge" required>
+        <br>
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
