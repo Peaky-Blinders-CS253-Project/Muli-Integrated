@@ -252,13 +252,6 @@ class AddStudentSuccessView(View):
 
 
 
-class MessMenuView(View):
-    template_name = 'mess_manager/mess_menu.html'
-
-    def get(self, request):
-        # Fetch menu items for all days of the week
-        menu_items = MessMenu.objects.all()
-        return render(request, self.template_name, {'menu_items': menu_items})
 
 
 class UpdateMessMenuView(View):
@@ -319,10 +312,14 @@ class BreakdownChartView(View):
 
 class AddWorkerStaffView(View):
     def get(self, request):
+        if not request.user.is_authenticated or request.user.is_student:
+            return HttpResponseForbidden("You don't have permission to perform this action.")
         form = AddWorkerStaffForm()
         return render(request, 'mess_manager/add_worker_staff.html', {'form': form})
 
     def post(self, request):
+        if not request.user.is_authenticated or request.user.is_student:
+            return HttpResponseForbidden("You don't have permission to perform this action.")
         form = AddWorkerStaffForm(request.POST)
         if form.is_valid():
             # Process the form data and save to the database
@@ -340,11 +337,14 @@ class MessMenuView(View):
     template_name = 'mess_manager/mess_menu.html'
 
     def get(self, request):
-        # Fetch all menu items
+        if not request.user.is_authenticated or request.user.is_student:
+            return HttpResponseForbidden("You don't have permission to perform this action.")
         menu_items = MessMenu.objects.all()
         return render(request, self.template_name, {'menu_items': menu_items})
 
     def post(self, request):
+        if not request.user.is_authenticated or request.user.is_student:
+            return HttpResponseForbidden("You don't have permission to perform this action.")
         form = MessMenuForm(request.POST)
         if form.is_valid():
             form.save()
@@ -361,7 +361,7 @@ class ExtraMealMenuView(View):
         
 class StudentListView(View):
     def get(self, request):
-        students = Student.objects.all()
+        students = Student.objects.exclude(rollno__in=[0, 1])
         return render(request, 'mess_manager/student-list.html', {'students': students})
     
 

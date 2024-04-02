@@ -33,9 +33,9 @@
         <tbody>
             {% for student in students %}
             <tr>
-                <td>{{ student.name }}</td>
                 <td>{{ student.username }}</td>
-                <td>{{ student.remaining_fees }}</td>
+                <td>{{ student.rollno }}</td>
+                <td>{{ student.email }}</td>
                 <!-- Add more fields as needed -->
             </tr>
             {% endfor %}

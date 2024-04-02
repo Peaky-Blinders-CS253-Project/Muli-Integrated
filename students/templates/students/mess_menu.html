@@ -8,15 +8,8 @@
     <title>Mess Menu</title>
 </head>
 <body>
-    <h1>Mess Menu</h1>
 
     <!-- Display the form for adding new menu items -->
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Add Menu Item</button>
-    </form>
-
     <!-- Display the existing menu items -->
     <table>
         <thead>

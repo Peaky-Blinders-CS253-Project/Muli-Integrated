@@ -6,8 +6,9 @@ from .models import Student
 from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
 class StudentRegistrationForm(forms.Form):
-    username = forms.CharField(max_length=150)
+    rollno = forms.IntegerField()
     password = forms.CharField(widget=forms.PasswordInput)
+    newpassword = forms.CharField(widget=forms.PasswordInput)
   
 class StudentLoginForm(forms.Form):
     username = forms.CharField(max_length=255)

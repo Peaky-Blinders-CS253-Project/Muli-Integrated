@@ -8,7 +8,7 @@ from django.contrib.auth.models import Group
 
 @admin.register(MessMenu)
 class MessMenuAdmin(admin.ModelAdmin):
-    list_display = ('day', 'breakfast', 'lunch', 'dinner', 'price')
+    list_display = ('day', 'breakfast', 'lunch', 'dinner')
 
 admin.site.register(FoodItem)
 

@@ -43,10 +43,9 @@ class MessMenu(models.Model):
     ]
 
     day = models.CharField(max_length=255, choices=DAY_CHOICES)
-    breakfast = models.ForeignKey(FoodItem, related_name='breakfast_items', on_delete=models.CASCADE)
-    lunch = models.ForeignKey(FoodItem, related_name='lunch_items', on_delete=models.CASCADE)
-    dinner = models.ForeignKey(FoodItem, related_name='dinner_items', on_delete=models.CASCADE)
-    price = models.DecimalField(max_digits=10, decimal_places=2)
+    breakfast = models.CharField( max_length=150)
+    lunch = models.CharField( max_length=150)
+    dinner = models.CharField( max_length=150)
 
     def __str__(self):
         return f"{self.day} - Breakfast: {self.breakfast.name}, Lunch: {self.lunch.name}, Dinner: {self.dinner.name} - Price: {self.price}"

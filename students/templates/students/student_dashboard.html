@@ -10,7 +10,13 @@
     <header>
         <div class="header-content">
             <h1 class="title">MULI</h1>
-            <div id="settings-icon" class="settings-icon">&#9881;</div>
+        
+            <a href="{% url 'student_change_password' %}" class="settings-icon">Change Password</a>
+            <span class="space"></span>
+            <a href="{% url 'student_logout' %}" class="settings-icon">Log Out</a>
+            <span class="space"></span>
+            <a href="{% url 'student_mess_menu' %}" class="settings-icon">View Mess Menu
+            </a>
         </div>
     </header>
 
@@ -79,6 +85,12 @@ main {
     align-items: flex-start;
     text-align: center;
 }
+
+.space {
+    margin-left: 5px; /* Adjust the value as needed */
+    margin-right: 5px; /* Adjust the value as needed */
+}
+
 
 .card {
     width: 180px; /* Adjust width as needed */

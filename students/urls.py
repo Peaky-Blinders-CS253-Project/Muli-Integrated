@@ -1,7 +1,7 @@
 # students/urls.py
 from django.urls import path
 from students.views import StudentCardView, StudentLoginView, StudentLogoutView, \
- StudentdashboardView, StudentRegisterView
+ StudentdashboardView, StudentchangepasswordView,StudentMessMenuView
 from .views import ExtraItemListView, ExtraItemDetailView, book_extra_item, student_breakdown_view, booking_success,meal_cancel
 from students import views
 
@@ -11,7 +11,7 @@ urlpatterns = [
     path('cancel-meal/<int:rollno>/',views.cancel_meal,name='cancel_meal'),
     path('student-card/<str:roll_number>/', StudentCardView.as_view(), name='student_card'),
     path('student-login/', StudentLoginView.as_view(), name='student_login'),
-    path('student-register/', StudentRegisterView.as_view(), name='student_register'),
+    path('student-change-password/', StudentchangepasswordView.as_view(), name='student_change_password'),
     path('student-logout/', StudentLogoutView.as_view(), name='student_logout'),
     path('student-dashboard/<int:rollno>/', StudentdashboardView.as_view(), name='student_dashboard'),
     path('extra-items/', ExtraItemListView.as_view(), name='extra_item_list'),
@@ -24,4 +24,5 @@ urlpatterns = [
     path('get_extra_items/', views.get_extra_items, name='get_extra_items'),
     path('show-extra/<int:rollno>/',views.show_extra,name='show_extra'),
     path('book-extra-item/<int:rollno>/',views.book_extra_item,name='book_extra_item'),
+    path('view-mess-menu/',StudentMessMenuView.as_view(),name='student_mess_menu'),
 ]

@@ -94,40 +94,50 @@ class StudentdashboardView(View):
         #   return HttpResponseForbidden("")
         
         # Your view logic here
-        if not request.user.is_student and request.user.rollno != rollno and request.user.rollno == 0 :
-            return HttpResponseForbidden("You are not authorized to access this page.")
+        #if not request.user.is_student and request.user.rollno != rollno and request.user.rollno == 0 :
+        #    return HttpResponseForbidden("You are not authorized to access this page.")
 
 
 
-class StudentRegisterView(FormView):
+from django.contrib.auth.hashers import check_password
+
+class StudentchangepasswordView(FormView):
     template_name = 'students/student_register.html'
     form_class = StudentRegistrationForm
 
     def form_valid(self, form):
-        # Extract username and password from the form
-        username = form.cleaned_data['username']
+        # Extract form data
+        rollno = form.cleaned_data['rollno']
         password = form.cleaned_data['password']
+        newpassword = form.cleaned_data['newpassword']
         
         try:
             # Get the student instance from the database
-            student = Student.objects.get(username=username)
-            # Update the password for the existing user
-            student.password = make_password(password)
-            # Save the updated student object
-            student.save()
-            # Authenticate and login the user
-            user = authenticate(username=username, password=password)
-            if user is not None:
-                login(self.request, user)
-                return HttpResponseRedirect(self.get_success_url())
+            student = Student.objects.get(rollno=rollno)
+            # Check if the provided password matches the hashed password in the database
+            if check_password(password, student.password):
+                # Update the password for the existing user
+                student.password = make_password(newpassword)
+                # Save the updated student object
+                student.save()
+                
+                # Redirect to student_dashboard with rollno as keyword argument
+                # Redirect to the dashboard after successful password change
+                return redirect('student_login')
+            else:
+                # Password does not match, return form with error message
+                form.add_error('password', 'Incorrect password')
+                return self.form_invalid(form)
+
         except Student.DoesNotExist:
-            pass  # Username does not exist, let the form handle the validation error
-        
-        return super().form_invalid(form)
+            # Student not found, return form with error message
+            form.add_error('rollno', 'Student not found')
+            return self.form_invalid(form)
 
     def get_success_url(self):
         return reverse('student_dashboard')
 
+   
 from django.contrib import messages
 
 class StudentLoginView(FormView):
@@ -151,10 +161,23 @@ class StudentLoginView(FormView):
             messages.error(self.request, 'Invalid username or password')
         return self.form_invalid(form)
 
+from mess_manager.forms import MessMenuForm
+from mess_manager.models import MessMenu
 
 
+class StudentMessMenuView(View):
+    template_name = 'students/mess_menu.html'
 
+    def get(self, request):
+        menu_items = MessMenu.objects.all()
+        return render(request, self.template_name, {'menu_items': menu_items})
 
+    def post(self, request):
+        form = MessMenuForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('student_mess_menu')
+        return render(request, self.template_name, {'form': form})
 
 
 

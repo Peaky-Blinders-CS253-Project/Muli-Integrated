@@ -28,9 +28,13 @@ class AddWorkerStaffForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput)
 
 class MessMenuForm(forms.ModelForm):
+    breakfast =forms.CharField(max_length=100)
+    lunch = forms.CharField(max_length=100)
+    dinner = forms.CharField(max_length=100)
+    
     class Meta:
         model = MessMenu
-        fields = ['day', 'breakfast', 'lunch', 'dinner', 'price']
+        fields = ['day', 'breakfast', 'lunch', 'dinner']
 
 #class ExtraMealMenuForm(forms.ModelForm):
 #    class Meta:
