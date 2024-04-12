@@ -224,7 +224,9 @@ def AddStudentView(request):
         email = request.POST.get('email')
         password = request.POST.get('password')
         hashed_password = make_password(password)
-        
+        if Student.objects.filter(rollno=rollno).exists():
+            message = "Roll number already exists."
+            return render(request, 'mess_manager/add_student.html',{'message':message})
         try:
             student_group = Group.objects.get(name='Students')
         except ObjectDoesNotExist:
@@ -364,13 +366,16 @@ class StudentListView(View):
         students = Student.objects.exclude(rollno__in=[0, 1])
         return render(request, 'mess_manager/student-list.html', {'students': students})
     
+from django.contrib.auth import logout
+from django.shortcuts import redirect
 
 def logout_view(request):
     if request.method == 'POST':
-        # Perform logout action
         logout(request)
-        return redirect('home') 
-
+        return redirect('home')
+    else:
+        logout(request)
+        return redirect('home')
 
 
 from django.db.models import Count

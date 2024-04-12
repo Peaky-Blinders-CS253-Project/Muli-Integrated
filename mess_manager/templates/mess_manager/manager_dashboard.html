@@ -11,7 +11,7 @@
 
 <div class="header">
     <div>MULI</div>
-    <a href="{% url 'logout' %}" class="button" method="POST">⚙️</a>
+    <a href="{% url 'student_logout' %}" >Log out</a>
 </div>
 <div class="container">
     <a href="{% url 'student_list' %}" class="button"><span class="symbol">👥</span><br>Student Info</a>
@@ -24,3 +24,41 @@
 
 </body>
 </html>
+
+<style>
+body {
+    background-color: #13072E;
+    color: white;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.header {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+}
+.container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    padding: 10px;
+}
+.button {
+    background-color: #3f2182;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 12px;
+}
+</style>

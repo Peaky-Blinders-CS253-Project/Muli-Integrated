@@ -187,7 +187,7 @@ class StudentMessMenuView(View):
 class StudentLogoutView(View):
     def get(self, request):
         logout(request)
-        return redirect('student_login')  # Redirect to student login page
+        return redirect('home')  # Redirect to student login page
         
 import datetime
 from django.http import JsonResponse
@@ -219,13 +219,22 @@ def meal_cancel(request,rollno):
 from datetime import datetime
 
 
+from django.utils import timezone
+
 def extra_booking(request, rollno):
     if request.method == 'POST':
         extra_date = request.POST.get('extraDate')
         extra_time = request.POST.get('extraTime')
         
+        # Check if the selected date is a future date
+        selected_date = datetime.strptime(extra_date, '%Y-%m-%d').date()
+        if selected_date <= timezone.now().date():
+            # Return an error message or handle the case where the selected date is in the past
+            message = "Selected date must be a future date."
+            return render(request, 'students/meal_cancel.html',{'message':message})
+        
         # Get the day of the week for the selected date
-        day_of_week = datetime.strptime(extra_date, '%Y-%m-%d').strftime('%A')
+        day_of_week = selected_date.strftime('%A')
         
         # Fetch weekly items for the selected day of the week
         weekly_items = ExtraItem.objects.filter(Day=day_of_week, Type='Weekly')
@@ -243,16 +252,19 @@ def extra_booking(request, rollno):
     else:
         # Handle GET request (initial load of the page)
         return render(request, 'students/meal_cancel.html')
-    
+
+from datetime import datetime
 
 def show_extra(request,rollno):
-    if not request.user.is_student and request.user.rollno != rollno and request.user.rollno == 0 :
+    if not request.user.is_student and request.user.rollno != rollno and request.user.rollno == 0:
             return HttpResponseForbidden("You are not authorized to access this page.")
     if request.method == 'POST':
         extra_date = request.POST.get('extraDate')
         extra_time = request.POST.get('extraTime')
 
-        
+        if datetime.today().date() >= datetime.strptime(extra_date, '%Y-%m-%d').date():
+                messagebook = 'Please select a date greater than today.'
+                return render(request, 'students/meal_cancel.html',{'rollno':rollno,'messagebook':messagebook})
         
         # Get the day of the week for the selected date
         day_of_week = datetime.strptime(extra_date, '%Y-%m-%d').strftime('%A').lower()
@@ -273,6 +285,9 @@ def show_extra(request,rollno):
         return render(request, 'students/show_extra.html', {'rollno': rollno,'weekly_items': weekly_items,
                                                              'special_items': special_items,
                                                              'regular_items': regular_items})
+    else:
+        # Handle GET request (initial load of the page)
+        return render(request, 'students/meal_cancel.html')
 
 def book_extra_item(request, rollno):
     if not request.user.is_student and request.user.rollno != rollno and request.user.rollno == 0 :

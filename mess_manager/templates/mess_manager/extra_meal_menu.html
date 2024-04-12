@@ -69,7 +69,11 @@
             </div>
         </div>
     </div>
-    {{message}}
+    {% if messages %}
+                {% for message in messages %}
+                    <p class="error">{{ message }}</p>
+                {% endfor %}
+            {% endif %}
     <script src="scripts.js"></script>
 </body>
 </html>
