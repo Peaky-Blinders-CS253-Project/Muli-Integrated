@@ -25,3 +25,8 @@ class GroupAdmin(admin.ModelAdmin):
 
 admin.site.unregister(Group)
 admin.site.register(Group, GroupAdmin)
+
+from django.contrib import admin
+from .models import BaseMealCharge
+
+admin.site.register(BaseMealCharge)

@@ -34,6 +34,12 @@ class ExtraItem(models.Model):
     Day = models.CharField(max_length=15,null=True)
     Type= models.TextField(max_length=15,default='Regular')
 
+class BookingExtraItems(models.Model):
+    rollno = models.IntegerField(default=0)
+    date = models.DateField()
+    time = models.CharField(max_length=20,default= 'Breakfast')
+    extra_item = models.CharField(max_length=50,default='DCBM')    
+
 class BreakdownChart(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE)
     date = models.DateField()
@@ -43,7 +49,7 @@ class BreakdownChart(models.Model):
     
 class BreakdownChartExtra(models.Model):
     breakdown_chart = models.ForeignKey(BreakdownChart, on_delete=models.CASCADE, related_name='extras')
-    extra_item = models.ForeignKey(ExtraItem, on_delete=models.CASCADE)
+    extra_item = models.ForeignKey(BookingExtraItems, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
     price = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
 # class Student(models.Model):
@@ -58,12 +64,6 @@ class BaseMealPrecancellation(models.Model):
     time = models.CharField(max_length=20,default= 'Breakfast')
 
 
-
-class BookingExtraItems(models.Model):
-    rollno = models.IntegerField(default=0)
-    date = models.DateField()
-    time = models.CharField(max_length=20,default= 'Breakfast')
-    extra_item = models.CharField(max_length=50,default='DCBM')
     # Add other fields for extra items
 
 

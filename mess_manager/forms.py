@@ -8,7 +8,7 @@ from django.core.exceptions import ValidationError
 class BaseMealChargeForm(forms.Form):
     date = forms.DateField()
     base_meal_charge = forms.DecimalField(max_digits=10, decimal_places=2)
-
+    min_charge = forms.DecimalField(max_digits=10, decimal_places=2)
 class ManagerLoginForm(AuthenticationForm):
     pass  # Use Django's built-in AuthenticationForm
 

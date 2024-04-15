@@ -2,7 +2,7 @@
 from django.urls import path
 from students.views import StudentCardView, StudentLoginView, StudentLogoutView, \
  StudentdashboardView, StudentchangepasswordView,StudentMessMenuView
-from .views import ExtraItemListView, ExtraItemDetailView, book_extra_item, student_breakdown_view, booking_success,meal_cancel
+from .views import ExtraItemListView, ExtraItemDetailView, book_extra_item, student_breakdown_view, booking_success,meal_cancel,booking_extra_items_chart
 from students import views
 
 urlpatterns = [
@@ -18,7 +18,7 @@ urlpatterns = [
     path('extra-items/<int:pk>/', ExtraItemDetailView.as_view(), name='extra_item_detail'),
     path('book-extra/<int:pk>/', book_extra_item, name='book_extra'),
     path('booking-success/', booking_success, name='booking_success'),
-    path('student-breakdown/', student_breakdown_view, name='student_breakdown'),
+    path('student-breakdown/', booking_extra_items_chart, name='student_breakdown'),
     # Add other URLs as needed
     path('extra-booking/<int:rollno>/',views.extra_booking, name= 'extra_booking'),
     path('get_extra_items/', views.get_extra_items, name='get_extra_items'),

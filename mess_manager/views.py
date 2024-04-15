@@ -31,7 +31,7 @@ from django.utils import timezone
 from datetime import datetime
 
 
-
+from .models import BaseMealCharge
 class BaseMealChargeView(View):
     template_name = 'mess_manager/set_base_meal_charge.html'
 
@@ -44,14 +44,9 @@ class BaseMealChargeView(View):
         if form.is_valid():
             date = form.cleaned_data['date']
             base_meal_charge = form.cleaned_data['base_meal_charge']
-
-            # Update base meal charge for all students
-            students = Student.objects.all()
-            for student in students:
-                breakdown_chart, created = BreakdownChart.objects.get_or_create(student=student, date=date)
-                breakdown_chart.base_meal_price = base_meal_charge
-                breakdown_chart.save()
-
+            min_charge = form.cleaned_data['min_charge']
+            
+            BaseMealCharge.objects.create(date=date, charge=base_meal_charge , min_charge=min_charge)
             return redirect('base_meal_charge_success')  # Redirect to a success page
 
         return render(request, self.template_name, {'form': form})

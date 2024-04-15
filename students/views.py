@@ -37,7 +37,51 @@ class ExtraItemDetailView(DetailView):
 
 from django.http import HttpResponseBadRequest
 
-@login_required
+def book_extra_item(request, rollno):
+    if not request.user.is_authenticated or request.user.rollno != rollno:
+        return HttpResponseForbidden("You are not authorized to access this page.")
+
+    if request.method == 'POST':
+        # Get data from the form
+        extra_date = request.session.get('extraDate')
+        extra_time = request.session.get('extraTime')
+        extra_item_id = request.POST.get('extra_item')  # Assuming the value is the ID of the extra item
+
+        # Save the data to the BookingExtraItems model
+        booking_extra_item = BookingExtraItems.objects.create(
+            rollno=rollno,
+            date=extra_date,
+            time=extra_time,
+            extra_item=extra_item_id
+            # Add other fields if needed
+        )
+    
+        # Redirect the user to a success page
+        return redirect('meal_cancel', rollno=rollno)  # Replace 'meal_cancel' with the URL name of your success page
+
+    # Handle GET requests or invalid form submissions
+    return render(request, 'book_extra_item.html')
+
+from .models import BookingExtraItems
+
+from django.db.models import Value, F, CharField
+
+def booking_extra_items_chart(request):
+    if request.user.is_authenticated:
+        rollno = request.user.rollno
+        booking_extra_items = BookingExtraItems.objects.filter(rollno=rollno)
+        
+        # Fetch prices for all extra items
+        extra_item_prices = ExtraItem.objects.all()
+        
+        # Pass booking_extra_items and extra_item_prices to the template
+        return render(request, 'booking_extra_item_chart.html', {
+            'booking_extra_items': booking_extra_items,
+            'extra_item_prices': extra_item_prices
+        })
+    else:
+        return HttpResponseForbidden("You are not authorized to access this page.")
+
 def book_extra_item(request, pk):
     extra_item = ExtraItem.objects.get(pk=pk)
     student = Student.objects.get(username=request.user.username)  # Assuming you have a OneToOneField linking Student to User
@@ -53,7 +97,7 @@ def book_extra_item(request, pk):
     breakdown_chart.save()
 
     # Create or update the breakdown chart extra for the student
-    breakdown_chart_extra, _ = BreakdownChartExtra.objects.get_or_create(breakdown_chart=breakdown_chart, extra_item=extra_item)
+    breakdown_chart_extra, _ = BreakdownChartExtra.objects.get_or_create(breakdown_chart=breakdown_chart, extra_item=extra_item,user_name=student)
     breakdown_chart_extra.quantity += quantity
     breakdown_chart_extra.price += price
     breakdown_chart_extra.save()

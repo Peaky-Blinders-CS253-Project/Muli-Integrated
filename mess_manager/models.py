@@ -91,4 +91,5 @@ class BaseMealCharge(models.Model):
     # Model for base meal charges, storing charges for each meal each day
     date = models.DateField()
     charge = models.DecimalField(max_digits=10, decimal_places=2)
+    min_charge = models.DecimalField(max_digits=10,decimal_places=2,default=0)
 
