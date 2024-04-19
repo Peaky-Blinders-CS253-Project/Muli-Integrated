@@ -29,6 +29,7 @@ from django.utils import timezone
 from django.http import HttpResponse, HttpResponseForbidden
 from django.utils import timezone
 from datetime import datetime
+from django.core.mail import send_mail
 
 
 from .models import BaseMealCharge
@@ -235,6 +236,13 @@ def AddStudentView(request):
         
         # Add the student to the 'Students' group
         en.groups.add(student_group)
+        send_mail(
+        'Welcome to Muli',  # Subject
+        f'Your password to login in Muli is: {password}',  # Message body with password
+        'mulitesting@gmail.com',  # Sender's email address
+        [email],  # List of recipient email addresses
+        fail_silently=False
+        )
         
         return redirect('add_student_success') 
     
