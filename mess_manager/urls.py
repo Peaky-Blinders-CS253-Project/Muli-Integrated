@@ -16,7 +16,7 @@ urlpatterns = [
     path('logout/', logout_view, name='logout'),
     path('manager-login/', ManagerLoginView.as_view(), name='manager_login'),
     path('manager-dashboard/', ManagerDashboardView.as_view(), name='manager_dashboard'),
-    
+    path('delete-menu-item/<int:pk>/', MessMenuView.as_view(), name='delete_menu_item'),
     path('mess-menu/', MessMenuView.as_view(), name='mess_menu'),
     path('update_mess_menu/<int:menu_id>/', UpdateMessMenuView.as_view(), name='update_mess_menu'),
     path('extra-meal-menu/', ExtraMealMenuView.as_view(), name='extra_meal_menu'),

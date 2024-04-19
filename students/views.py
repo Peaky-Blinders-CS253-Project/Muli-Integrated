@@ -24,6 +24,7 @@ from django.contrib.auth import authenticate, login
 from django.views.generic import FormView
 from .forms import StudentLoginForm
 from django.urls import reverse_lazy
+import datetime
 
 class ExtraItemListView(ListView):
     model = ExtraItem
@@ -209,20 +210,36 @@ from mess_manager.forms import MessMenuForm
 from mess_manager.models import MessMenu
 
 
+from django.views.generic import View
+from django.shortcuts import render
+from django.db.models import Case, Value, When, IntegerField
 class StudentMessMenuView(View):
     template_name = 'students/mess_menu.html'
 
     def get(self, request):
-        menu_items = MessMenu.objects.all()
+        if not request.user.is_authenticated or not request.user.is_student:
+            return HttpResponseForbidden("You don't have permission to perform this action.")
+        
+        # Define the order of days
+        day_order = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+        
+        # Fetch all distinct days
+        days = MessMenu.objects.values_list('day', flat=True).distinct()
+
+        # Create a conditional expression to map day names to integers for ordering
+        order_conditions = [When(day=day, then=Value(index)) for index, day in enumerate(day_order)]
+
+        # Order the days based on the predefined order
+        ordered_days = days.annotate(
+            order=Case(*order_conditions, default=Value(len(day_order)), output_field=IntegerField())
+        ).order_by('order')
+        
+        # Create a dictionary to hold menu items for each day
+        menu_items = {}
+        for day in ordered_days:
+            menu_items[day] = MessMenu.objects.filter(day=day)
+        
         return render(request, self.template_name, {'menu_items': menu_items})
-
-    def post(self, request):
-        form = MessMenuForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('student_mess_menu')
-        return render(request, self.template_name, {'form': form})
-
 
 
 
@@ -239,26 +256,34 @@ from django.http import JsonResponse
 def base_meal_precancellations(request,rollno):
     return render(request, 'students/base_meal_precancellation.html')
 
+from datetime import datetime
+import datetime
 
-def meal_cancel(request,rollno):
-    if not request.user.is_student and request.user.rollno != rollno and request.user.rollno == 0 :
-            return HttpResponseForbidden("You are not authorized to access this page.")
+def meal_cancel(request, rollno):
+    if not request.user.is_student and request.user.rollno != rollno and request.user.rollno == 0:
+        return HttpResponseForbidden("You are not authorized to access this page.")
+    
     if request.user.is_student and request.user.rollno == rollno:
         context = {'rollno': rollno}
+        
         if request.method == 'POST':
             cancel_date = request.POST.get('canceldate')
             cancel_time = request.POST.get('canceltime')
-            if datetime.date.today() >= datetime.datetime.strptime(cancel_date, '%Y-%m-%d').date():
+            
+            if datetime.today().date() >= datetime.strptime(cancel_date, '%Y-%m-%d').date():
                 message = 'Please select a date greater than today.'
                 context['message'] = message
-                return render(request, 'students/meal_cancel.html',context)
+                return render(request, 'students/meal_cancel.html', context)
+            
             BaseMealPrecancellation.objects.create(rollno=request.user.rollno, date=cancel_date, time=cancel_time)
             message = 'Meal cancellation is successful.'
             context['message'] = message
-            return render(request, 'students/meal_cancel.html',context)
-        return render(request, 'students/meal_cancel.html',context)
+            return render(request, 'students/meal_cancel.html', context)
+        
+        return render(request, 'students/meal_cancel.html', context)
     else:
-            return HttpResponseForbidden("You are not authorized to access this page.")
+        return HttpResponseForbidden("You are not authorized to access this page.")
+
 
 from datetime import datetime
 
@@ -369,7 +394,8 @@ def get_extra_items(request):
     # Return extra items as JSON response
     return JsonResponse(list(extra_items), safe=False)
 
-def cancel_meal(request,rollno):
+
+def cancel_meal(request, rollno):
     if request.method == 'POST':
         cancel_date = request.POST.get('canceldate')
         cancel_time = request.POST.get('canceltime')

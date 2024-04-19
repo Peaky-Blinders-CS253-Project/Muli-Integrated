@@ -25,21 +25,22 @@
                 <th>Breakfast</th>
                 <th>Lunch</th>
                 <th>Dinner</th>
-                
             </tr>
         </thead>
         <tbody>
-            {% for item in menu_items %}
-            <tr>
-                <td>{{ item.day }}</td>
-                <td>{{ item.breakfast }}</td>
-                <td>{{ item.lunch }}</td>
-                <td>{{ item.dinner }}</td>
-            </tr>
+            {% for day, items in menu_items.items %}
+                {% for item in items %}
+                    <tr>
+                        {% if forloop.first %}
+                            <td rowspan="{{ items|length }}">{{ day }}</td>
+                        {% endif %}
+                        <td>{{ item.breakfast }}</td>
+                        <td>{{ item.lunch }}</td>
+                        <td>{{ item.dinner }}</td>
+                    </tr>
+                {% endfor %}
             {% endfor %}
         </tbody>
     </table>
 </body>
 </html>
-
-

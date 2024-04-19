@@ -338,23 +338,55 @@ class AddWorkerStaffView(View):
 
 
 
+
+from django.shortcuts import get_object_or_404
+
+from django.views.generic import View
+from django.shortcuts import redirect, get_object_or_404
+from django.http import HttpResponseForbidden
+from mess_manager.models import MessMenu
+
+from django.views.generic import View
+from django.shortcuts import render, redirect, get_object_or_404
+from django.http import HttpResponseForbidden
+from .forms import MessMenuForm
+from .models import MessMenu
+
+from django.db.models import Case, When, Value, IntegerField
+from django.views.generic import View
+from django.shortcuts import render
+from django.http import HttpResponseForbidden
+from .models import MessMenu
+
 class MessMenuView(View):
     template_name = 'mess_manager/mess_menu.html'
 
     def get(self, request):
         if not request.user.is_authenticated or request.user.is_student:
             return HttpResponseForbidden("You don't have permission to perform this action.")
-        menu_items = MessMenu.objects.all()
+        
+        # Define the order of days
+        day_order = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+        
+        # Fetch all distinct days
+        days = MessMenu.objects.values_list('day', flat=True).distinct()
+
+        # Create a conditional expression to map day names to integers for ordering
+        order_conditions = [When(day=day, then=Value(index)) for index, day in enumerate(day_order)]
+
+        # Order the days based on the predefined order
+        ordered_days = days.annotate(
+            order=Case(*order_conditions, default=Value(len(day_order)), output_field=IntegerField())
+        ).order_by('order')
+        
+        # Create a dictionary to hold menu items for each day
+        menu_items = {}
+        for day in ordered_days:
+            menu_items[day] = MessMenu.objects.filter(day=day)
+        
         return render(request, self.template_name, {'menu_items': menu_items})
 
-    def post(self, request):
-        if not request.user.is_authenticated or request.user.is_student:
-            return HttpResponseForbidden("You don't have permission to perform this action.")
-        form = MessMenuForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('mess_menu')
-        return render(request, self.template_name, {'form': form})
+
 
 class ExtraMealMenuView(View):
     def get(self, request):

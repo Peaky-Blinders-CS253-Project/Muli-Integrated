@@ -48,7 +48,7 @@ class MessMenu(models.Model):
     dinner = models.CharField( max_length=150)
 
     def __str__(self):
-        return f"{self.day} - Breakfast: {self.breakfast.name}, Lunch: {self.lunch.name}, Dinner: {self.dinner.name} - Price: {self.price}"
+        return f"{self.day} - Breakfast: {self.breakfast}, Lunch: {self.lunch}, Dinner: {self.dinner} "
 
 
   
