@@ -358,16 +358,25 @@ from django.shortcuts import render
 from django.http import HttpResponseForbidden
 from .models import MessMenu
 
+from django.http import HttpResponseRedirect
+
+from django.http import HttpResponseForbidden
+from django.shortcuts import render
+from django.views import View
+from .forms import MessMenuForm
+from .models import MessMenu
+from django.http import HttpResponseRedirect
+
 class MessMenuView(View):
     template_name = 'mess_manager/mess_menu.html'
 
     def get(self, request):
         if not request.user.is_authenticated or request.user.is_student:
             return HttpResponseForbidden("You don't have permission to perform this action.")
-        
+
         # Define the order of days
         day_order = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
-        
+
         # Fetch all distinct days
         days = MessMenu.objects.values_list('day', flat=True).distinct()
 
@@ -378,13 +387,28 @@ class MessMenuView(View):
         ordered_days = days.annotate(
             order=Case(*order_conditions, default=Value(len(day_order)), output_field=IntegerField())
         ).order_by('order')
-        
+
         # Create a dictionary to hold menu items for each day
         menu_items = {}
         for day in ordered_days:
             menu_items[day] = MessMenu.objects.filter(day=day)
+
+        # Pass the form instance to the template
+        form = MessMenuForm()
         
-        return render(request, self.template_name, {'menu_items': menu_items})
+        return render(request, self.template_name, {'menu_items': menu_items, 'form': form})
+
+    def post(self, request):
+        if not request.user.is_authenticated or request.user.is_student:
+            return HttpResponseForbidden("You don't have permission to perform this action.")
+
+        form = MessMenuForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(request.path_info)  # Redirect to the same page after successful submission
+        else:
+            # If the form is invalid, re-render the page with the form and error messages
+            return render(request, self.template_name, {'form': form})
 
 
 
